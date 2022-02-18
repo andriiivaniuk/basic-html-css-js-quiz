@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz game</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    <main class = "main">
+        <h1 class = "main-header">
+            Quiz!
+        </h1>
+        <button class = "start-quiz-button" id = "start-quiz-button" onclick="startQuiz()">
+            Start quiz!
+        </button>
+        <span class = "question-header">
+            Question: 
+        </span>
+        <span class = "question-text" id = "question-text">
+            
+        </span>
+        <div class = "buttons-set">
+            <button class = "answer-button" id = "answer-button1" onclick="inputAnswer(1)">answer1</button>
+            <button class = "answer-button" id = "answer-button2" onclick="inputAnswer(2)">answer2</button>
+            <button class = "answer-button" id = "answer-button3" onclick="inputAnswer(3)">answer3</button>
+        </div>
+        <div class = "check-answer-field">
+            <button class = "check-answer-button" id = "check-answer-button" onclick= "checkAnswer()">
+                Check answer:
+            </button>
+            <button class = "next-question-button" id = "next-question-button" onclick= "nextQuestion()">
+                Next Question
+            </button>
+        </div>
+
+
+    </main>
+    
+</body>
+</html>
