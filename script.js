@@ -3,18 +3,39 @@ const Questions = {
         answers: {rightAnswer: "Dublin", wrongAnswer0: "Madrid", wrongAnswer1: "Oslo"}},
     question2: {text: "What is aproximate distance from Earth to the Moon?",
         answers: {rightAnswer: "384.000 km", wrongAnswer0: "38.000 km", wrongAnswer1: "3.840.000 km"}},
-    question3: {text: "hello?",
-        answers: {rightAnswer: "no", wrongAnswer0: "yes", wrongAnswer1: "maybe"}},
-    question4: {text: "1",
-        answers: {rightAnswer: "1", wrongAnswer0: "2", wrongAnswer1: "3"}},
-    question5: {text: "1",
-        answers: {rightAnswer: "4", wrongAnswer0: "2", wrongAnswer1: "3"}}, 
+    question3: {text: "What was the name of secret society whose member killed Franz Ferdinand?",
+        answers: {rightAnswer: "Black Hand", wrongAnswer0: "Yellow Stone", wrongAnswer1: "White Bird"}},
+    question4: {text: "How many years old was Jesus when he was crusified?",
+        answers: {rightAnswer: "33", wrongAnswer0: "22", wrongAnswer1: "44"}},
+    question5: {text: "Which animal's head does Hindu God of knowledge - Ganesha, has instead of human's head?",
+        answers: {rightAnswer: "elephant", wrongAnswer0: "owl", wrongAnswer1: "eagle"}}, 
+}
+
+const formQuestionsSet = (amount) => {
+
+    if(amount > questionAmount){
+        throw(RangeError("this amount of questions is bigger than possible questions"))
+    }
+    
+    let questionsFiltered = {};
+
+    while(Object.values(questionsFiltered).length < amount){
+        let rand = Math.floor(Math.random() * questionAmount+1);
+        if(!questionsFiltered.hasOwnProperty(Questions["question" + rand])){
+            questionsFiltered["question" + rand] = Questions["question" + rand];
+        }
+    }
+
+    return questionsFiltered;
 }
 
 let quizStarted = false;
 let curQnum = 1;
 let curAnswerInput = "";
+let currentCorrectAnswer = "";
 const questionAmount = Object.values(Questions).length;
+const finalQuestionAmount = Number(prompt("how many questions?"));
+const finalQuestionsSet = formQuestionsSet(finalQuestionAmount);
 let rightAnswers = 0;
 let totalAnswers = 0;
 let buttons = document.getElementsByClassName("answer-button");
@@ -36,7 +57,12 @@ const startQuiz = () => {
 
 const updateQuestion = () => {
 
-    let AnswersArr = Object.values(Questions["question" + (curQnum)].answers);
+    let currentQuestion = Object.values(finalQuestionsSet);
+    currentQuestion = currentQuestion[curQnum-1];
+    currentCorrectAnswer = currentQuestion.answers.rightAnswer;
+
+    let AnswersArr = Object.values(currentQuestion.answers);
+    
     let randArr = [];
 
     while(randArr.length < 3){
@@ -48,8 +74,8 @@ const updateQuestion = () => {
 
     resetButStyle();
 
-    document.getElementById("question-header").textContent = "Question: " + curQnum + " out of " + questionAmount;
-    document.getElementById("question-text").textContent = Questions["question" + (curQnum)].text;
+    document.getElementById("question-header").textContent = "Question: " + curQnum + " out of " + finalQuestionAmount;
+    document.getElementById("question-text").textContent = currentQuestion.text;
     document.getElementById("answer-button1").textContent = randArr[0];
     document.getElementById("answer-button2").textContent = randArr[1];
     document.getElementById("answer-button3").textContent = randArr[2];
@@ -60,7 +86,7 @@ const checkAnswer = () => {
 
     if (!curAnswerInput) { return; }
 
-    if (curAnswerInput === Questions["question" + (curQnum)].answers.rightAnswer){
+    if (curAnswerInput === currentCorrectAnswer){
         console.log("correct");
         rightAnswers++;
         totalAnswers++;
@@ -96,6 +122,7 @@ const nextQuestion = () => {
 
     curQnum++;
     curAnswerInput = "";
+    currentCorrectAnswer = "";
 
     updateQuestion();
     resetButStyle();
@@ -107,7 +134,7 @@ const showAnswers = () => {
     
     for (but of buttons){
         but.disabled = true;
-        if (but.textContent === Questions["question" + (curQnum)].answers.rightAnswer){
+        if (but.textContent === currentCorrectAnswer){
             but.style.background = "green";
         }
         else{
@@ -118,7 +145,7 @@ const showAnswers = () => {
         }
     }
 
-    if (curQnum === questionAmount){   
+    if (curQnum === finalQuestionAmount){   
         quizStarted = false;
         console.log("quiz ended");
         document.getElementById("next-question-button").textContent = "Quiz ended";
@@ -136,3 +163,4 @@ const resetButStyle = () => {
 
     document.getElementById("check-answer-button").style.display = "block";
 }
+
