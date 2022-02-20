@@ -9,6 +9,14 @@ const Questions = {
         answers: {rightAnswer: "33", wrongAnswer0: "22", wrongAnswer1: "44"}},
     question5: {text: "Which animal's head does Hindu God of knowledge - Ganesha, has instead of human's head?",
         answers: {rightAnswer: "elephant", wrongAnswer0: "owl", wrongAnswer1: "eagle"}}, 
+    question6: {text: "Capital of USA?",
+        answers: {rightAnswer: "Washington", wrongAnswer0: "New-York", wrongAnswer1: "Boston"}}, 
+    question7: {text: "The last Russian king (tsar) who was killed by bolsheviks?",
+        answers: {rightAnswer: "Nikolai II", wrongAnswer0: "Ivan Grozniy", wrongAnswer1: "Alexander I"}}, 
+    question8: {text: "Capital of Israel?",
+        answers: {rightAnswer: "Tel-Aviv", wrongAnswer0: "Jerusalem", wrongAnswer1: "Hebron"}}, 
+    question9: {text: "Longest river in Europe?",
+        answers: {rightAnswer: "Volga", wrongAnswer0: "Danube", wrongAnswer1: "Dnipro"}}, 
 }
 
 const formQuestionsSet = (amount) => {
@@ -40,6 +48,8 @@ let rightAnswers = 0;
 let totalAnswers = 0;
 let buttons = document.getElementsByClassName("answer-button");
 
+let lineStep;
+
 const startQuiz = () => {
     
     quizStarted = true;
@@ -53,6 +63,8 @@ const startQuiz = () => {
     }
 
     updateQuestion();
+
+    lineStep = Number(document.getElementById("info__temp-line").offsetWidth) / finalQuestionAmount;
 }
 
 const updateQuestion = () => {
@@ -126,6 +138,7 @@ const nextQuestion = () => {
 
     updateQuestion();
     resetButStyle();
+    updateQuestion();
 
     document.getElementById("next-question-button").style.display = "none";
 }
@@ -144,6 +157,8 @@ const showAnswers = () => {
             but.style.border = "3px solid blue";
         }
     }
+    
+    updateDesignStyle();
 
     if (curQnum === finalQuestionAmount){   
         quizStarted = false;
@@ -151,6 +166,8 @@ const showAnswers = () => {
         document.getElementById("next-question-button").textContent = "Quiz ended";
         return;
     }
+
+    
 }
 
 const resetButStyle = () => {
@@ -162,5 +179,9 @@ const resetButStyle = () => {
     }
 
     document.getElementById("check-answer-button").style.display = "block";
+}
+
+const updateDesignStyle = () => {
+    document.getElementById("info__line-filler").style.width = document.getElementById("info__line-filler").offsetWidth + lineStep + "px";
 }
 
